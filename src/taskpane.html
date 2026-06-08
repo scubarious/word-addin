@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentsjablonen</title>
+
+  <!-- Office.js: verplicht voor elke Word add-in -->
+  <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+  <style>
+    :root {
+      --brand:       #1A4F8A;
+      --brand-light: #E8F0F9;
+      --brand-dark:  #0F2E50;
+      --accent:      #D4821A;
+      --text:        #1C1C1C;
+      --text-muted:  #6B7280;
+      --border:      #E5E7EB;
+      --bg:          #FFFFFF;
+      --bg-secondary:#F9FAFB;
+      --radius:      8px;
+      --radius-sm:   5px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--bg);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Header ─────────────────────────────────── */
+    .header {
+      background: var(--brand);
+      color: white;
+      padding: 12px 14px 10px;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .header p {
+      font-size: 11px;
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+
+    /* ── Tabs ────────────────────────────────────── */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      flex-shrink: 0;
+    }
+    .tab {
+      flex: 1;
+      padding: 9px 4px;
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .tab:hover { color: var(--brand); }
+    .tab.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    /* ── Panels ──────────────────────────────────── */
+    .panels {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .panel { display: none; padding: 12px; }
+    .panel.active { display: block; }
+
+    /* ── Template grid ───────────────────────────── */
+    .section-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      margin-top: 14px;
+    }
+    .section-label:first-child { margin-top: 0; }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .template-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+    .template-card:hover {
+      border-color: var(--brand);
+      background: var(--brand-light);
+    }
+    .template-card:active {
+      transform: scale(0.97);
+    }
+    .template-card .icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .template-card .name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .template-card .desc {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+    .template-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* ── Insert button ───────────────────────────── */
+    .btn-insert {
+      display: block;
+      width: 100%;
+      margin-top: 6px;
+      padding: 8px;
+      background: var(--brand);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-insert:hover { background: var(--brand-dark); }
+    .btn-insert:disabled {
+      background: var(--border);
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    /* ── Status / toast ──────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 14px;
+      left: 12px;
+      right: 12px;
+      background: var(--brand-dark);
+      color: white;
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.2s;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .toast.error { background: #B91C1C; }
+
+    /* ── Image library ───────────────────────────── */
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .image-thumb {
+      aspect-ratio: 4/3;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      overflow: hidden;
+      transition: border-color 0.15s;
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .image-thumb:hover { border-color: var(--brand); }
+    .image-thumb.selected {
+      border: 2px solid var(--brand);
+      background: var(--brand-light);
+    }
+
+    /* ── Settings ────────────────────────────────── */
+    .field {
+      margin-bottom: 10px;
+    }
+    .field label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+    .field input, .field select {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+    }
+    .field input:focus, .field select:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+
+    /* ── Footer ──────────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 8px 12px;
+      background: var(--bg-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .footer span {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+    .badge {
+      font-size: 10px;
+      background: var(--brand-light);
+      color: var(--brand);
+      border-radius: 3px;
+      padding: 2px 5px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>📄 Documentsjablonen</h1>
+    <p>PWMedia · Huisstijl templates</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('templates')">Sjablonen</div>
+    <div class="tab" onclick="switchTab('invoegen')">Invoegen</div>
+    <div class="tab" onclick="switchTab('bibliotheek')">Beelden</div>
+    <div class="tab" onclick="switchTab('instellingen')">Instellingen</div>
+  </div>
+
+  <div class="panels">
+
+    <!-- ── TAB 1: Sjablonen ── -->
+    <div class="panel active" id="panel-templates">
+      <div class="section-label">Documenten</div>
+      <div class="template-grid">
+        <div class="template-card" onclick="insertTemplate('document')">
+          <span class="icon">📋</span>
+          <div class="name">Document</div>
+          <div class="desc">Met voorblad en inhoudsopgave</div>
+        </div>
+        <div class="template-card" onclick="insertTemplate('beleid')">
+          <span class="icon">📜</span>
+          <div class="name">Beleidsdocument</div>
+          <div class="desc">Met versiebeheer tabel</div>
+        </div>
+        <div class="template-card" onclick="insertTemplate('memo')">
+          <span class="icon">📝</span>
+          <div class="name">Memo</div>
+          <div class="desc">Standaard memo indeling</div>
+        </div>
+        <div class="template-card" onclick="insertTemplate('brief')">
+          <span class="icon">✉️</span>
+          <div class="name">Brief</div>
+          <div class="desc">Zakelijke brief</div>
+        </div>
+        <div class="template-card" onclick="insertTemplate('notulen')">
+          <span class="icon">🗒️</span>
+          <div class="name">Meeting minutes</div>
+          <div class="desc">Vergadernotulen</div>
+        </div>
+        <div class="template-card" onclick="insertTemplate('checklist')">
+          <span class="icon">✅</span>
+          <div class="name">Checklist</div>
+          <div class="desc">Taakoverzicht</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB 2: Invoegen ── -->
+    <div class="panel" id="panel-invoegen">
+      <div class="section-label">Bouwstenen</div>
+      <div class="template-grid">
+        <div class="template-card" onclick="insertBlock('toc')">
+          <span class="icon">📑</span>
+          <div class="name">Inhoudsopgave</div>
+          <div class="desc">Automatisch bijgewerkt</div>
+        </div>
+        <div class="template-card" onclick="insertBlock('versiebeheer')">
+          <span class="icon">🔄</span>
+          <div class="name">Versiebeheer</div>
+          <div class="desc">Versiehistorie tabel</div>
+        </div>
+        <div class="template-card" onclick="insertBlock('tabel2')">
+          <span class="icon">⬜</span>
+          <div class="name">Tabel 2-koloms</div>
+          <div class="desc">Huisstijl opmaak</div>
+        </div>
+        <div class="template-card" onclick="insertBlock('tabel3')">
+          <span class="icon">▦</span>
+          <div class="name">Tabel 3-koloms</div>
+          <div class="desc">Huisstijl opmaak</div>
+        </div>
+        <div class="template-card" onclick="insertBlock('kader')">
+          <span class="icon">🔲</span>
+          <div class="name">Tekst kader</div>
+          <div class="desc">Accentbox met lijn</div>
+        </div>
+        <div class="template-card" onclick="insertBlock('paginanummer')">
+          <span class="icon">🔢</span>
+          <div class="name">Paginanummering</div>
+          <div class="desc">In footer invoegen</div>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top:16px">Documentvelden</div>
+      <div class="template-grid">
+        <div class="template-card" onclick="insertField('datum')">
+          <span class="icon">📅</span>
+          <div class="name">Datum</div>
+          <div class="desc">Automatisch vandaag</div>
+        </div>
+        <div class="template-card" onclick="insertField('auteur')">
+          <span class="icon">👤</span>
+          <div class="name">Auteur</div>
+          <div class="desc">Vanuit instellingen</div>
+        </div>
+        <div class="template-card" onclick="insertField('bedrijf')">
+          <span class="icon">🏢</span>
+          <div class="name">Bedrijfsnaam</div>
+          <div class="desc">Vanuit instellingen</div>
+        </div>
+        <div class="template-card" onclick="insertField('versie')">
+          <span class="icon">🏷️</span>
+          <div class="name">Versienummer</div>
+          <div class="desc">Huidige versie</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB 3: Beeldbibliotheek ── -->
+    <div class="panel" id="panel-bibliotheek">
+      <div class="section-label">Voorbladen</div>
+      <div class="image-grid">
+        <div class="image-thumb" onclick="selectImage('voorblad-1')">🖼️</div>
+        <div class="image-thumb" onclick="selectImage('voorblad-2')">🌄</div>
+        <div class="image-thumb" onclick="selectImage('voorblad-3')">🏙️</div>
+      </div>
+
+      <div class="section-label">Logo varianten</div>
+      <div class="image-grid">
+        <div class="image-thumb" onclick="selectImage('logo-donker')">🔵</div>
+        <div class="image-thumb" onclick="selectImage('logo-licht')">⚪</div>
+        <div class="image-thumb" onclick="selectImage('logo-kleur')">🟡</div>
+      </div>
+
+      <div class="section-label">Iconen</div>
+      <div class="image-grid">
+        <div class="image-thumb" onclick="selectImage('icon-pijl')">➡️</div>
+        <div class="image-thumb" onclick="selectImage('icon-vinkje')">✔️</div>
+        <div class="image-thumb" onclick="selectImage('icon-ster')">⭐</div>
+        <div class="image-thumb" onclick="selectImage('icon-info')">ℹ️</div>
+        <div class="image-thumb" onclick="selectImage('icon-waarsch')">⚠️</div>
+        <div class="image-thumb" onclick="selectImage('icon-plus')">➕</div>
+      </div>
+
+      <button class="btn-insert" id="btn-voeg-beeld-in" disabled onclick="insertSelectedImage()">
+        Geselecteerd beeld invoegen
+      </button>
+    </div>
+
+    <!-- ── TAB 4: Instellingen ── -->
+    <div class="panel" id="panel-instellingen">
+      <div class="section-label">Organisatie</div>
+      <div class="field">
+        <label>Bedrijfsnaam</label>
+        <input type="text" id="setting-bedrijf" placeholder="Mijn Organisatie B.V." />
+      </div>
+      <div class="field">
+        <label>Entiteit / Afdeling</label>
+        <select id="setting-entiteit">
+          <option>Hoofdkantoor</option>
+          <option>Afdeling A</option>
+          <option>Afdeling B</option>
+        </select>
+      </div>
+
+      <div class="section-label">Gebruiker</div>
+      <div class="field">
+        <label>Naam auteur</label>
+        <input type="text" id="setting-auteur" placeholder="Voornaam Achternaam" />
+      </div>
+      <div class="field">
+        <label>Functietitel</label>
+        <input type="text" id="setting-functie" placeholder="Bijv. Projectmanager" />
+      </div>
+
+      <div class="section-label">Huisstijl</div>
+      <div class="field">
+        <label>Primaire kleur (hex)</label>
+        <input type="text" id="setting-kleur" placeholder="#1A4F8A" />
+      </div>
+
+      <button class="btn-insert" onclick="saveSettings()">Instellingen opslaan</button>
+    </div>
+
+  </div><!-- /panels -->
+
+  <div class="footer">
+    <span>PWMedia Sjablonen</span>
+    <span class="badge">v1.0.0</span>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ── Office initialisatie ─────────────────────────────────────────
+    Office.onReady(function(info) {
+      if (info.host !== Office.HostType.Word) {
+        showToast('⚠️ Alleen beschikbaar in Word', true);
+      }
+      loadSettings();
+    });
+
+    // ── Tab wisselen ─────────────────────────────────────────────────
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+
+      const tabs = ['templates', 'invoegen', 'bibliotheek', 'instellingen'];
+      const idx = tabs.indexOf(tabName);
+      document.querySelectorAll('.tab')[idx].classList.add('active');
+      document.getElementById('panel-' + tabName).classList.add('active');
+    }
+
+    // ── Templates invoegen ───────────────────────────────────────────
+    const TEMPLATES = {
+      document: buildDocumentTemplate,
+      beleid:   buildBeleidTemplate,
+      memo:     buildMemoTemplate,
+      brief:    buildBriefTemplate,
+      notulen:  buildNotulenTemplate,
+      checklist: buildChecklistTemplate,
+    };
+
+    async function insertTemplate(type) {
+      try {
+        await Word.run(async (ctx) => {
+          const body = ctx.document.body;
+          body.clear();
+          const builder = TEMPLATES[type];
+          if (builder) await builder(ctx, body);
+          await ctx.sync();
+        });
+        showToast('✓ Sjabloon ingevoegd');
+      } catch (e) {
+        showToast('Fout: ' + e.message, true);
+      }
+    }
+
+    // ── Bouwblokken invoegen ─────────────────────────────────────────
+    async function insertBlock(type) {
+      try {
+        await Word.run(async (ctx) => {
+          const sel = ctx.document.getSelection();
+          switch (type) {
+            case 'versiebeheer': insertVersiebeheertabel(ctx, sel); break;
+            case 'tabel2':       insertHuisstijlTabel(ctx, sel, 2); break;
+            case 'tabel3':       insertHuisstijlTabel(ctx, sel, 3); break;
+            case 'kader':        insertKader(ctx, sel); break;
+            default:             sel.insertText('[' + type + ']', 'Replace');
+          }
+          await ctx.sync();
+        });
+        showToast('✓ Ingevoegd');
+      } catch (e) {
+        showToast('Fout: ' + e.message, true);
+      }
+    }
+
+    // ── Velden invoegen ──────────────────────────────────────────────
+    async function insertField(type) {
+      const settings = getSettings();
+      const values = {
+        datum:   new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }),
+        auteur:  settings.auteur  || '[Auteur]',
+        bedrijf: settings.bedrijf || '[Bedrijfsnaam]',
+        versie:  '1.0',
+      };
+      try {
+        await Word.run(async (ctx) => {
+          const sel = ctx.document.getSelection();
+          sel.insertText(values[type] || type, 'Replace');
+          await ctx.sync();
+        });
+        showToast('✓ Veld ingevoegd');
+      } catch (e) {
+        showToast('Fout: ' + e.message, true);
+      }
+    }
+
+    // ── Sjabloon bouwers ─────────────────────────────────────────────
+
+    async function buildDocumentTemplate(ctx, body) {
+      const settings = getSettings();
+      const datum = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      // Titel
+      const titel = body.insertParagraph('[Documenttitel]', 'Start');
+      titel.styleBuiltIn = Word.Style.heading1;
+
+      // Metadata blok
+      body.insertParagraph('', 'End');
+      const meta = body.insertParagraph('', 'End');
+      meta.insertText('Auteur: ' + (settings.auteur || '[Auteur]'));
+      body.insertParagraph('Datum: ' + datum, 'End');
+      body.insertParagraph('Versie: 1.0', 'End');
+      body.insertParagraph('Status: Concept', 'End');
+      body.insertParagraph('', 'End');
+
+      // Inhoudsopgave placeholder
+      const tocHeader = body.insertParagraph('Inhoudsopgave', 'End');
+      tocHeader.styleBuiltIn = Word.Style.heading2;
+      body.insertParagraph('[Voeg automatische inhoudsopgave in via Verwijzingen > Inhoudsopgave]', 'End');
+      body.insertParagraph('', 'End');
+
+      // Hoofdstukken
+      ['1. Inleiding', '2. Achtergrond', '3. Uitwerking', '4. Conclusie'].forEach(h => {
+        const heading = body.insertParagraph(h, 'End');
+        heading.styleBuiltIn = Word.Style.heading2;
+        body.insertParagraph('Voeg hier de tekst in voor dit hoofdstuk.', 'End');
+        body.insertParagraph('', 'End');
+      });
+    }
+
+    async function buildBeleidTemplate(ctx, body) {
+      const datum = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      const titel = body.insertParagraph('[Naam Beleidsdocument]', 'Start');
+      titel.styleBuiltIn = Word.Style.heading1;
+
+      body.insertParagraph('', 'End');
+
+      // Versiebeheer tabel (via OOXML)
+      const versieHeader = body.insertParagraph('Versiehistorie', 'End');
+      versieHeader.styleBuiltIn = Word.Style.heading2;
+
+      // Eenvoudige tabel
+      const table = body.insertTable(3, 4, 'End', [
+        ['Versie', 'Datum', 'Auteur', 'Wijziging'],
+        ['1.0', datum, '[Naam]', 'Initiële versie'],
+        ['', '', '', ''],
+      ]);
+      table.styleBuiltIn = Word.Style.tableGrid;
+
+      body.insertParagraph('', 'End');
+
+      // Secties
+      ['1. Doel', '2. Toepassingsgebied', '3. Definities', '4. Beleid', '5. Verantwoordelijkheden', '6. Evaluatie'].forEach(h => {
+        const heading = body.insertParagraph(h, 'End');
+        heading.styleBuiltIn = Word.Style.heading2;
+        body.insertParagraph('Voeg hier de beleidstekst in.', 'End');
+        body.insertParagraph('', 'End');
+      });
+    }
+
+    async function buildMemoTemplate(ctx, body) {
+      const datum = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+      const settings = getSettings();
+
+      const titel = body.insertParagraph('MEMO', 'Start');
+      titel.styleBuiltIn = Word.Style.heading1;
+      body.insertParagraph('', 'End');
+
+      const fields = [
+        ['Aan',       '[Naam ontvanger]'],
+        ['Van',       settings.auteur || '[Uw naam]'],
+        ['Datum',     datum],
+        ['Betreft',   '[Onderwerp van de memo]'],
+        ['Status',    'Ter informatie'],
+      ];
+      fields.forEach(([label, val]) => {
+        body.insertParagraph(label + ':\t' + val, 'End');
+      });
+      body.insertParagraph('', 'End');
+      body.insertParagraph('──────────────────────────────', 'End');
+      body.insertParagraph('', 'End');
+
+      ['Samenvatting', 'Achtergrond', 'Bevindingen', 'Aanbeveling', 'Vervolgstappen'].forEach(h => {
+        const heading = body.insertParagraph(h, 'End');
+        heading.styleBuiltIn = Word.Style.heading2;
+        body.insertParagraph('Vul hier de tekst in.', 'End');
+        body.insertParagraph('', 'End');
+      });
+    }
+
+    async function buildBriefTemplate(ctx, body) {
+      const datum = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+      const settings = getSettings();
+
+      // Afzender
+      body.insertParagraph(settings.bedrijf || '[Bedrijfsnaam]', 'Start').bold = true;
+      body.insertParagraph('[Adres]', 'End');
+      body.insertParagraph('[Postcode en Plaats]', 'End');
+      body.insertParagraph('[Telefoon]', 'End');
+      body.insertParagraph('[E-mail]', 'End');
+      body.insertParagraph('', 'End');
+      body.insertParagraph(datum, 'End');
+      body.insertParagraph('', 'End');
+
+      // Geadresseerde
+      body.insertParagraph('Aan:', 'End');
+      body.insertParagraph('[Naam ontvanger]', 'End');
+      body.insertParagraph('[Bedrijf ontvanger]', 'End');
+      body.insertParagraph('[Adres ontvanger]', 'End');
+      body.insertParagraph('', 'End');
+
+      // Onderwerp
+      const betreft = body.insertParagraph('Betreft: [Onderwerp]', 'End');
+      betreft.bold = true;
+      body.insertParagraph('', 'End');
+
+      // Aanhef
+      body.insertParagraph('Geachte heer/mevrouw [Naam],', 'End');
+      body.insertParagraph('', 'End');
+
+      // Body
+      body.insertParagraph('Introductiezin. Kern van de brief.', 'End');
+      body.insertParagraph('', 'End');
+      body.insertParagraph('Vervolgalinea indien nodig.', 'End');
+      body.insertParagraph('', 'End');
+
+      // Afsluiting
+      body.insertParagraph('Met vriendelijke groet,', 'End');
+      body.insertParagraph('', 'End');
+      body.insertParagraph('', 'End');
+      body.insertParagraph(settings.auteur || '[Naam]', 'End');
+      body.insertParagraph(settings.functie || '[Functie]', 'End');
+      body.insertParagraph(settings.bedrijf || '[Bedrijfsnaam]', 'End');
+    }
+
+    async function buildNotulenTemplate(ctx, body) {
+      const datum = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      const titel = body.insertParagraph('Vergadernotulen', 'Start');
+      titel.styleBuiltIn = Word.Style.heading1;
+      body.insertParagraph('', 'End');
+
+      const fields = [
+        ['Datum',       datum],
+        ['Locatie',     '[Locatie of Teams/Zoom]'],
+        ['Aanwezig',    '[Namen deelnemers]'],
+        ['Afwezig',     '[Namen]'],
+        ['Notulist',    '[Naam]'],
+        ['Voorzitter',  '[Naam]'],
+      ];
+      fields.forEach(([label, val]) => {
+        body.insertParagraph(label + ':\t' + val, 'End');
+      });
+      body.insertParagraph('', 'End');
+
+      ['1. Opening', '2. Vaststelling agenda', '3. Actiepunten vorige vergadering', '4. Agendapunten', '5. Rondvraag', '6. Sluiting'].forEach(h => {
+        const heading = body.insertParagraph(h, 'End');
+        heading.styleBuiltIn = Word.Style.heading2;
+        body.insertParagraph('Notulen voor dit punt.', 'End');
+        body.insertParagraph('', 'End');
+      });
+
+      const aHeader = body.insertParagraph('Actiepuntenlijst', 'End');
+      aHeader.styleBuiltIn = Word.Style.heading2;
+      const actieTable = body.insertTable(4, 3, 'End', [
+        ['Actie', 'Verantwoordelijke', 'Deadline'],
+        ['[Actie 1]', '[Naam]', '[Datum]'],
+        ['[Actie 2]', '[Naam]', '[Datum]'],
+        ['[Actie 3]', '[Naam]', '[Datum]'],
+      ]);
+      actieTable.styleBuiltIn = Word.Style.tableGrid;
+    }
+
+    async function buildChecklistTemplate(ctx, body) {
+      const datum = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+      const settings = getSettings();
+
+      const titel = body.insertParagraph('[Naam Checklist]', 'Start');
+      titel.styleBuiltIn = Word.Style.heading1;
+
+      body.insertParagraph('Datum: ' + datum + '   |   Verantwoordelijke: ' + (settings.auteur || '[Naam]'), 'End');
+      body.insertParagraph('', 'End');
+
+      ['Sectie 1', 'Sectie 2', 'Sectie 3'].forEach((sectie, si) => {
+        const heading = body.insertParagraph(sectie, 'End');
+        heading.styleBuiltIn = Word.Style.heading2;
+        for (let i = 1; i <= 4; i++) {
+          body.insertParagraph('☐  Taakomschrijving ' + (si * 4 + i), 'End');
+        }
+        body.insertParagraph('', 'End');
+      });
+    }
+
+    // ── Bouwblok helpers ─────────────────────────────────────────────
+
+    function insertVersiebeheertabel(ctx, sel) {
+      const datum = new Date().toLocaleDateString('nl-NL');
+      const table = sel.insertTable(3, 4, 'After', [
+        ['Versie', 'Datum', 'Auteur', 'Omschrijving wijziging'],
+        ['1.0', datum, '[Naam]', 'Initiële versie'],
+        ['', '', '', ''],
+      ]);
+      table.styleBuiltIn = Word.Style.tableGrid;
+    }
+
+    function insertHuisstijlTabel(ctx, sel, cols) {
+      const headers = cols === 2
+        ? ['Kolom 1', 'Kolom 2']
+        : ['Kolom 1', 'Kolom 2', 'Kolom 3'];
+      const rows = [headers, ...Array(3).fill(Array(cols).fill(''))];
+      const table = sel.insertTable(4, cols, 'After', rows);
+      table.styleBuiltIn = Word.Style.tableGrid;
+    }
+
+    function insertKader(ctx, sel) {
+      sel.insertText('[ Tekst in kader — pas opmaak aan naar accentkader in huisstijl ]', 'Replace');
+    }
+
+    // ── Beeldbibliotheek ─────────────────────────────────────────────
+    let selectedImage = null;
+
+    function selectImage(id) {
+      selectedImage = id;
+      document.querySelectorAll('.image-thumb').forEach(t => t.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      document.getElementById('btn-voeg-beeld-in').disabled = false;
+    }
+
+    function insertSelectedImage() {
+      if (!selectedImage) return;
+      // In productie: laad de afbeelding als base64 vanuit SharePoint/Azure
+      // en gebruik: context.document.body.insertInlinePictureFromBase64(base64, 'End')
+      showToast('Beeld "' + selectedImage + '" — koppel aan echte URL in productie');
+    }
+
+    // ── Instellingen ─────────────────────────────────────────────────
+    function getSettings() {
+      return {
+        bedrijf: localStorage.getItem('pwm_bedrijf') || '',
+        auteur:  localStorage.getItem('pwm_auteur')  || '',
+        functie: localStorage.getItem('pwm_functie') || '',
+        entiteit: localStorage.getItem('pwm_entiteit') || '',
+        kleur:   localStorage.getItem('pwm_kleur')   || '#1A4F8A',
+      };
+    }
+
+    function loadSettings() {
+      const s = getSettings();
+      document.getElementById('setting-bedrijf').value = s.bedrijf;
+      document.getElementById('setting-auteur').value  = s.auteur;
+      document.getElementById('setting-functie').value = s.functie;
+      document.getElementById('setting-kleur').value   = s.kleur;
+    }
+
+    function saveSettings() {
+      localStorage.setItem('pwm_bedrijf',  document.getElementById('setting-bedrijf').value);
+      localStorage.setItem('pwm_auteur',   document.getElementById('setting-auteur').value);
+      localStorage.setItem('pwm_functie',  document.getElementById('setting-functie').value);
+      localStorage.setItem('pwm_kleur',    document.getElementById('setting-kleur').value);
+      showToast('✓ Instellingen opgeslagen');
+    }
+
+    // ── Toast helper ─────────────────────────────────────────────────
+    let toastTimer;
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (isError ? ' error' : '');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.className = 'toast', 2800);
+    }
+  </script>
+</body>
+</html>
