@@ -1,0 +1,26 @@
+[
+  {
+    "id": "hoofdkantoor",
+    "naam": "Hoofdkantoor",
+    "bedrijf": "Organisatie B.V.",
+    "adres": "Straat 1, 1234 AB Stad",
+    "telefoon": "040-1234567",
+    "email": "info@organisatie.nl",
+    "website": "www.organisatie.nl",
+    "kvk": "12345678",
+    "btw": "NL123456789B01",
+    "iban": "NL07 RABO 0158 2328 95"
+  },
+  {
+    "id": "vestiging-2",
+    "naam": "Vestiging 2",
+    "bedrijf": "Organisatie B.V.",
+    "adres": "Andere Straat 2, 5678 CD Stad",
+    "telefoon": "040-7654321",
+    "email": "vestiging2@organisatie.nl",
+    "website": "www.organisatie.nl",
+    "kvk": "12345678",
+    "btw": "NL123456789B01",
+    "iban": "NL07 RABO 0158 2328 95"
+  }
+]
