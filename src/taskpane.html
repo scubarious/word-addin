@@ -1,4 +1,4 @@
-<!-- v3.0.0 -->
+<!-- v4.0.0 -->
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -454,14 +454,12 @@
   // ── Template openen ─────────────────────────────────────────────
   function openTemplate(bestandsnaam) {
     var url = TEMPLATE_BASE + bestandsnaam;
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = bestandsnaam;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function() { document.body.removeChild(a); }, 200);
-    showToast('Sjabloon wordt geopend...');
+    try {
+      Office.context.ui.openBrowserWindow(url);
+      showToast('Sjabloon wordt geopend...');
+    } catch(e) {
+      showToast('Fout bij openen: ' + e.message, true);
+    }
   }
 
   // ── Header invullen ─────────────────────────────────────────────
