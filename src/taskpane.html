@@ -677,21 +677,27 @@
     // ── Template openen + header instellen ──────────────────────────
 
     async function openTemplate(bestandsnaam) {
-      // 1. Download de .dotx
       const url = TEMPLATE_BASE + bestandsnaam;
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = bestandsnaam;
-      a.target = '_blank';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      showToast('↓ ' + bestandsnaam + ' wordt geopend...');
 
-      // 2. Wacht even tot Word het document geopend heeft, dan header invullen
+      // Probeer meerdere methoden — Word WebView blokkeert soms downloads
+      try {
+        // Methode 1: window.open (werkt in de meeste Word versies)
+        window.open(url, '_blank');
+        showToast('↓ ' + bestandsnaam + ' wordt geopend...');
+      } catch(e) {
+        try {
+          // Methode 2: Office.context.ui.openBrowserWindow
+          Office.context.ui.openBrowserWindow(url);
+          showToast('↓ Openen in browser...');
+        } catch(e2) {
+          showToast('Kan niet openen. Kopieer URL: ' + url, true);
+        }
+      }
+
+      // Header invullen na korte wachttijd
       setTimeout(async () => {
         await applyVestigingHeader();
-      }, 2500);
+      }, 3000);
     }
 
     async function applyVestigingHeader() {
@@ -1007,16 +1013,19 @@
       const actief = localStorage.getItem('pwm_actieve_vestiging');
       const el = document.getElementById('vestiging-list');
       if (list.length === 0) { el.innerHTML = ''; return; }
-      el.innerHTML = list.map(v => '<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 9px;background:var(--white);border:1px solid var(--grey-light);border-radius:var(--radius-sm);margin-bottom:5px;">'
-        + '<div>'
-        + '<div style="font-size:12px;font-weight:700;color:var(--dark);">'+v.naam+'</div>'
-        + '<div style="font-size:10.5px;color:var(--grey);">'+v.adres+'</div>'
-        + '</div>'
-        + '<div style="display:flex;gap:4px;">'
-        + '<button onclick="editVestiging(''+v.id+'')" style="padding:3px 7px;font-size:10.5px;background:var(--grey-bg);border:1px solid var(--grey-light);border-radius:3px;cursor:pointer;font-family:inherit;">✏</button>'
-        + '<button onclick="deleteVestiging(''+v.id+'')" style="padding:3px 7px;font-size:10.5px;background:var(--grey-bg);border:1px solid var(--grey-light);border-radius:3px;cursor:pointer;font-family:inherit;">✕</button>'
-        + '</div>'
-        + '</div>').join('');
+      el.innerHTML = list.map(v => {
+        const id = v.id;
+        return '<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 9px;background:var(--white);border:1px solid var(--grey-light);border-radius:var(--radius-sm);margin-bottom:5px;">'
+          + '<div>'
+          + '<div style="font-size:12px;font-weight:700;color:var(--dark);">' + v.naam + '</div>'
+          + '<div style="font-size:10.5px;color:var(--grey);">' + (v.adres || '') + '</div>'
+          + '</div>'
+          + '<div style="display:flex;gap:4px;">'
+          + '<button onclick="editVestiging(\'' + id + '\')" style="padding:3px 7px;font-size:10.5px;background:var(--grey-bg);border:1px solid var(--grey-light);border-radius:3px;cursor:pointer;font-family:inherit;">✏</button>'
+          + '<button onclick="deleteVestiging(\'' + id + '\')" style="padding:3px 7px;font-size:10.5px;background:var(--grey-bg);border:1px solid var(--grey-light);border-radius:3px;cursor:pointer;font-family:inherit;">✕</button>'
+          + '</div>'
+          + '</div>';
+      }).join('');
     }
 
     function onVestigingChange() {
