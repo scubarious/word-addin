@@ -20,9 +20,9 @@
       --radius:      6px;
       --radius-sm:   4px;
     }
- 
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
     body {
       font-family: 'Nunito Sans', 'Avenir Next', 'Avenir', sans-serif;
       font-size: 13px;
@@ -33,7 +33,7 @@
       flex-direction: column;
       overflow: hidden;
     }
- 
+
     /* ── Header ── */
     .header {
       background: var(--grey-light);
@@ -52,7 +52,7 @@
       text-transform: uppercase;
       margin-top: 4px;
     }
- 
+
     /* ── Tabs ── */
     .tabs {
       display: flex;
@@ -79,12 +79,12 @@
       color: var(--orange);
       border-bottom-color: var(--orange);
     }
- 
+
     /* ── Panels ── */
     .panels { flex: 1; overflow-y: auto; overflow-x: hidden; }
     .panel { display: none; padding: 14px; }
     .panel.active { display: block; }
- 
+
     /* ── Section label ── */
     .section-label {
       font-size: 10px;
@@ -105,14 +105,14 @@
       height: 1px;
       background: var(--grey-light);
     }
- 
+
     /* ── Template cards ── */
     .template-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 7px;
     }
- 
+
     .template-card {
       border: 1px solid var(--grey-light);
       border-radius: var(--radius);
@@ -133,7 +133,7 @@
       box-shadow: 0 3px 8px rgba(241,135,0,0.12);
     }
     .template-card:active { transform: translateY(0); }
- 
+
     .template-card .card-icon {
       width: 32px;
       height: 32px;
@@ -159,7 +159,7 @@
       transition: stroke 0.15s;
     }
     .template-card:hover .card-icon svg { stroke: var(--orange); }
- 
+
     .template-card .name {
       font-size: 11.5px;
       font-weight: 700;
@@ -173,7 +173,7 @@
       line-height: 1.4;
       font-weight: 400;
     }
- 
+
     /* ── Buttons ── */
     .btn {
       display: block;
@@ -203,7 +203,7 @@
       border: 1px solid var(--orange);
     }
     .btn-ghost:hover { background: var(--orange-light); }
- 
+
     /* ── Image library ── */
     .image-grid {
       display: grid;
@@ -228,7 +228,7 @@
       border: 2px solid var(--orange);
       background: var(--orange-light);
     }
- 
+
     /* ── Settings ── */
     .field { margin-bottom: 10px; }
     .field label {
@@ -255,7 +255,7 @@
       outline: none;
       border-color: var(--orange);
     }
- 
+
     /* ── Color preview ── */
     .color-row {
       display: flex;
@@ -271,7 +271,7 @@
       flex-shrink: 0;
     }
     .color-row input { flex: 1; }
- 
+
     /* ── Toast ── */
     .toast {
       position: fixed;
@@ -293,7 +293,7 @@
     }
     .toast.show { opacity: 1; transform: translateY(0); }
     .toast.error { border-left-color: #e53e3e; }
- 
+
     /* ── Footer ── */
     .footer {
       border-top: 1px solid var(--grey-light);
@@ -314,7 +314,7 @@
       font-weight: 700;
       letter-spacing: 0.04em;
     }
- 
+
     /* ── Divider ── */
     .divider {
       height: 1px;
@@ -324,7 +324,7 @@
   </style>
 </head>
 <body>
- 
+
   <!-- Header -->
   <div class="header">
     <div>
@@ -342,7 +342,7 @@
       <div class="header-sub">Documentsjablonen</div>
     </div>
   </div>
- 
+
   <!-- Tabs -->
   <div class="tabs">
     <div class="tab active" onclick="switchTab('templates')">Sjablonen</div>
@@ -350,20 +350,20 @@
     <div class="tab" onclick="switchTab('bibliotheek')">Beelden</div>
     <div class="tab" onclick="switchTab('instellingen')">Instellingen</div>
   </div>
- 
+
   <!-- Actieve vestiging banner -->
   <div id="vestiging-banner" style="display:none; padding:6px 14px; background:var(--orange-light); border-bottom:1px solid var(--grey-light); font-size:11px; display:flex; align-items:center; justify-content:space-between;">
     <span id="vestiging-banner-naam" style="font-weight:700; color:var(--dark);"></span>
     <span style="color:var(--grey); font-size:10px;" onclick="switchTab('instellingen')" style="cursor:pointer;">Wijzigen →</span>
   </div>
- 
+
   <div class="panels">
- 
+
     <!-- TAB 1: Sjablonen -->
     <div class="panel active" id="panel-templates">
       <div class="section-label">Documenten</div>
       <div class="template-grid">
- 
+
         <div class="template-card" onclick="openTemplate('document-basis.dotx')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -371,7 +371,7 @@
           <div class="name">Document</div>
           <div class="desc">Voorblad + inhoudsopgave</div>
         </div>
- 
+
         <div class="template-card" onclick="openTemplate('beleidsdocument.dotx')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -379,7 +379,7 @@
           <div class="name">Beleidsdocument</div>
           <div class="desc">Met versiebeheer</div>
         </div>
- 
+
         <div class="template-card" onclick="openTemplate('memo.dotx')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -387,7 +387,7 @@
           <div class="name">Memo</div>
           <div class="desc">Standaard indeling</div>
         </div>
- 
+
         <div class="template-card" onclick="openTemplate('brief.dotx')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -395,7 +395,7 @@
           <div class="name">Brief</div>
           <div class="desc">Zakelijke brief</div>
         </div>
- 
+
         <div class="template-card" onclick="openTemplate('meeting-minutes.dotx')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -403,7 +403,7 @@
           <div class="name">Meeting minutes</div>
           <div class="desc">Vergadernotulen</div>
         </div>
- 
+
         <div class="template-card" onclick="openTemplate('checklist.dotx')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -411,9 +411,9 @@
           <div class="name">Checklist</div>
           <div class="desc">Taakoverzicht</div>
         </div>
- 
+
       </div>
- 
+
       <div style="margin-top:14px; padding:10px; background:var(--orange-light); border-radius:var(--radius); border-left:3px solid var(--orange);">
         <div style="font-size:10.5px; color:var(--grey); line-height:1.5;">
           <strong style="color:var(--dark);">Hoe werkt het?</strong><br>
@@ -423,18 +423,18 @@
           4. Klik op de knop hieronder om de header in te vullen
         </div>
       </div>
- 
+
       <button class="btn" style="margin-top:10px; background:var(--orange); color:var(--white);" onclick="applyVestigingHeader()">
         &#9998; Header invullen voor actieve vestiging
       </button>
       <div id="header-status" style="font-size:10.5px; color:var(--grey); text-align:center; margin-top:6px; min-height:16px;"></div>
     </div>
- 
+
     <!-- TAB 2: Invoegen -->
     <div class="panel" id="panel-invoegen">
       <div class="section-label">Bouwstenen</div>
       <div class="template-grid">
- 
+
         <div class="template-card" onclick="insertBlock('toc')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
@@ -442,7 +442,7 @@
           <div class="name">Inhoudsopgave</div>
           <div class="desc">Automatisch bijgewerkt</div>
         </div>
- 
+
         <div class="template-card" onclick="insertBlock('versiebeheer')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
@@ -450,7 +450,7 @@
           <div class="name">Versiebeheer</div>
           <div class="desc">Versiehistorie tabel</div>
         </div>
- 
+
         <div class="template-card" onclick="insertBlock('tabel2')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
@@ -458,7 +458,7 @@
           <div class="name">Tabel 2-koloms</div>
           <div class="desc">Huisstijl opmaak</div>
         </div>
- 
+
         <div class="template-card" onclick="insertBlock('tabel3')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
@@ -466,7 +466,7 @@
           <div class="name">Tabel 3-koloms</div>
           <div class="desc">Huisstijl opmaak</div>
         </div>
- 
+
         <div class="template-card" onclick="insertBlock('kader')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
@@ -474,7 +474,7 @@
           <div class="name">Tekst kader</div>
           <div class="desc">Accentbox met lijn</div>
         </div>
- 
+
         <div class="template-card" onclick="insertBlock('paginanummer')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -482,12 +482,12 @@
           <div class="name">Paginanummering</div>
           <div class="desc">In footer invoegen</div>
         </div>
- 
+
       </div>
- 
+
       <div class="section-label">Documentvelden</div>
       <div class="template-grid">
- 
+
         <div class="template-card" onclick="insertField('datum')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -495,7 +495,7 @@
           <div class="name">Datum</div>
           <div class="desc">Automatisch vandaag</div>
         </div>
- 
+
         <div class="template-card" onclick="insertField('auteur')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -503,7 +503,7 @@
           <div class="name">Auteur</div>
           <div class="desc">Vanuit instellingen</div>
         </div>
- 
+
         <div class="template-card" onclick="insertField('bedrijf')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -511,7 +511,7 @@
           <div class="name">Bedrijfsnaam</div>
           <div class="desc">Vanuit instellingen</div>
         </div>
- 
+
         <div class="template-card" onclick="insertField('versie')">
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
@@ -519,10 +519,10 @@
           <div class="name">Versienummer</div>
           <div class="desc">Huidige versie</div>
         </div>
- 
+
       </div>
     </div>
- 
+
     <!-- TAB 3: Beeldbibliotheek -->
     <div class="panel" id="panel-bibliotheek">
       <div class="section-label">Voorbladen</div>
@@ -531,7 +531,7 @@
         <div class="image-thumb" onclick="selectImage('voorblad-2', this)">🌄</div>
         <div class="image-thumb" onclick="selectImage('voorblad-3', this)">🏙️</div>
       </div>
- 
+
       <div class="section-label">Logo varianten</div>
       <div class="image-grid">
         <div class="image-thumb" onclick="selectImage('logo-donker', this)">
@@ -552,7 +552,7 @@
           </svg>
         </div>
       </div>
- 
+
       <div class="section-label">Iconen</div>
       <div class="image-grid">
         <div class="image-thumb" onclick="selectImage('icon-pijl', this)">→</div>
@@ -562,25 +562,25 @@
         <div class="image-thumb" onclick="selectImage('icon-waarsch', this)">⚠</div>
         <div class="image-thumb" onclick="selectImage('icon-plus', this)">+</div>
       </div>
- 
+
       <button class="btn" id="btn-voeg-beeld-in" disabled onclick="insertSelectedImage()">
         Geselecteerd beeld invoegen
       </button>
     </div>
- 
+
     <!-- TAB 4: Instellingen -->
     <div class="panel" id="panel-instellingen">
- 
+
       <!-- Vestiging selector -->
       <div class="section-label">Actieve vestiging</div>
       <div class="field">
         <label>Kies vestiging</label>
         <select id="setting-vestiging" onchange="onVestigingChange()"></select>
       </div>
- 
+
       <!-- Vestiging list -->
       <div id="vestiging-list"></div>
- 
+
       <!-- Vestiging form -->
       <div id="vestiging-form" style="display:none; background:var(--grey-bg); border-radius:var(--radius); padding:10px; margin-top:8px;">
         <div style="font-size:11px; font-weight:700; color:var(--dark); margin-bottom:8px;" id="vestiging-form-title">Vestiging toevoegen</div>
@@ -626,13 +626,13 @@
           <button class="btn btn-ghost" style="margin-top:0; flex:1;" onclick="hideVestigingForm()">Annuleren</button>
         </div>
       </div>
- 
+
       <button class="btn btn-ghost" style="margin-top:8px;" onclick="showVestigingForm()">
         + Vestiging toevoegen
       </button>
- 
+
       <div class="divider"></div>
- 
+
       <div class="section-label">Gebruiker</div>
       <div class="field">
         <label>Naam auteur</label>
@@ -642,7 +642,7 @@
         <label>Functietitel</label>
         <input type="text" id="setting-functie" placeholder="Bijv. Projectmanager" />
       </div>
- 
+
       <div class="section-label">Huisstijl</div>
       <div class="field">
         <label>Primaire kleur</label>
@@ -651,14 +651,14 @@
           <input type="text" id="setting-kleur" placeholder="#f18700" oninput="updateColorPreview(this.value)" />
         </div>
       </div>
- 
+
       <button class="btn" onclick="saveSettings()">Instellingen opslaan</button>
       <div class="divider"></div>
       <button class="btn btn-ghost" onclick="resetSettings()">Instellingen resetten</button>
     </div>
- 
+
   </div>
- 
+
   <!-- Footer -->
   <div class="footer">
     <div class="footer-logo">
@@ -675,60 +675,53 @@
     </div>
     <span class="badge">v2.0.0</span>
   </div>
- 
+
   <div class="toast" id="toast"></div>
- 
+
   <script>
     const TEMPLATE_BASE = 'https://scubarious.github.io/word-addin/templates/';
     const DATA_BASE     = 'https://scubarious.github.io/word-addin/data/';
- 
+
     // ── Template openen + header instellen ──────────────────────────
- 
+
     async function openTemplate(bestandsnaam) {
       const url = TEMPLATE_BASE + bestandsnaam;
- 
-      // Probeer meerdere methoden — Word WebView blokkeert soms downloads
+
+      // Toon downloadpaneel met klikbare link
+      const statusEl = document.getElementById('header-status');
+
       try {
-        // Methode 1: window.open (werkt in de meeste Word versies)
-        window.open(url, '_blank');
-        showToast('↓ ' + bestandsnaam + ' wordt geopend...');
+        Office.context.ui.openBrowserWindow(url);
+        showToast('↓ Openen in browser...');
+        if (statusEl) statusEl.innerHTML = '↓ Als het niet opent: <a href="' + url + '" target="_blank" style="color:var(--orange);">klik hier</a>';
       } catch(e) {
-        try {
-          // Methode 2: Office.context.ui.openBrowserWindow
-          Office.context.ui.openBrowserWindow(url);
-          showToast('↓ Openen in browser...');
-        } catch(e2) {
-          showToast('Kan niet openen. Kopieer URL: ' + url, true);
-        }
+        // Toon klikbare link als fallback
+        if (statusEl) statusEl.innerHTML = '<a href="' + url + '" target="_blank" style="color:var(--orange); font-weight:700;">&#8659; Klik hier om ' + bestandsnaam + ' te downloaden</a>';
+        showToast('Klik op de link hieronder', false);
       }
- 
-      // Header invullen na korte wachttijd
-      setTimeout(async () => {
-        await applyVestigingHeader();
-      }, 3000);
     }
- 
+
     async function applyVestigingHeader() {
       const v = getActieveVestiging();
       if (!v) {
         showToast('Kies eerst een vestiging onder Instellingen', true);
         return;
       }
- 
+
       const statusEl = document.getElementById('header-status');
       if (statusEl) statusEl.textContent = 'Bezig...';
- 
+
       try {
         await Word.run(async (ctx) => {
           const section = ctx.document.sections.getFirst();
- 
+
           // Vervang placeholders in zowel primary als first page header
           const headerTypes = ['Primary', 'FirstPage', 'EvenPages'];
           for (const type of headerTypes) {
             try {
               const header = section.getHeader(type);
               const body = header;
- 
+
               // Vervang alle placeholder teksten via search & replace
               const replacements = [
                 { from: '[Bedrijfsnaam]', to: v.bedrijf || v.naam || '' },
@@ -744,7 +737,7 @@
                 { from: '[IBAN]',         to: v.iban     || '' },
                 { from: '[Naam vestiging]', to: v.naam   || '' },
               ];
- 
+
               for (const r of replacements) {
                 if (!r.to) continue;
                 const results = header.search(r.from, { matchCase: false });
@@ -759,7 +752,7 @@
               // Header type bestaat niet — skip
             }
           }
- 
+
           // Ook in footer vervangen
           try {
             const footer = section.getFooter('Primary');
@@ -779,7 +772,7 @@
             await ctx.sync();
           } catch(e) {}
         });
- 
+
         showToast('✓ Header ingevuld voor ' + (v.naam || v.bedrijf));
         if (statusEl) statusEl.textContent = '✓ Ingevuld voor: ' + (v.naam || v.bedrijf);
       } catch(e) {
@@ -787,13 +780,13 @@
         if (statusEl) statusEl.textContent = 'Fout: ' + e.message;
       }
     }
- 
- 
+
+
     Office.onReady(function(info) {
       loadSettings();
       updateColorPreview(document.getElementById('setting-kleur').value || '#f18700');
     });
- 
+
     function switchTab(tabName) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -801,7 +794,7 @@
       document.querySelectorAll('.tab')[tabs.indexOf(tabName)].classList.add('active');
       document.getElementById('panel-' + tabName).classList.add('active');
     }
- 
+
     const TEMPLATES = {
       document:  buildDocumentTemplate,
       beleid:    buildBeleidTemplate,
@@ -810,7 +803,7 @@
       notulen:   buildNotulenTemplate,
       checklist: buildChecklistTemplate,
     };
- 
+
     async function insertTemplate(type) {
       try {
         await Word.run(async (ctx) => {
@@ -822,7 +815,7 @@
         showToast('✓ Sjabloon ingevoegd');
       } catch(e) { showToast('Fout: ' + e.message, true); }
     }
- 
+
     async function insertBlock(type) {
       try {
         await Word.run(async (ctx) => {
@@ -837,7 +830,7 @@
         showToast('✓ Ingevoegd');
       } catch(e) { showToast('Fout: ' + e.message, true); }
     }
- 
+
     async function insertField(type) {
       const s = getSettings();
       const values = {
@@ -854,7 +847,7 @@
         showToast('✓ Veld ingevoegd');
       } catch(e) { showToast('Fout: ' + e.message, true); }
     }
- 
+
     async function buildDocumentTemplate(ctx, body) {
       const s = getSettings();
       const datum = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
@@ -876,7 +869,7 @@
         body.insertParagraph('','End');
       });
     }
- 
+
     async function buildBeleidTemplate(ctx, body) {
       const datum = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
       body.insertParagraph('[Naam Beleidsdocument]','Start').styleBuiltIn = Word.Style.heading1;
@@ -891,7 +884,7 @@
         body.insertParagraph('','End');
       });
     }
- 
+
     async function buildMemoTemplate(ctx, body) {
       const s = getSettings();
       const datum = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
@@ -907,7 +900,7 @@
         body.insertParagraph('','End');
       });
     }
- 
+
     async function buildBriefTemplate(ctx, body) {
       const s = getSettings();
       const datum = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
@@ -928,7 +921,7 @@
       body.insertParagraph(s.functie||'[Functie]','End');
       body.insertParagraph(s.bedrijf||'[Bedrijfsnaam]','End');
     }
- 
+
     async function buildNotulenTemplate(ctx, body) {
       const datum = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
       body.insertParagraph('Vergadernotulen','Start').styleBuiltIn = Word.Style.heading1;
@@ -946,7 +939,7 @@
       const tbl = body.insertTable(4,3,'End',[['Actie','Verantwoordelijke','Deadline'],['[Actie 1]','[Naam]','[Datum]'],['[Actie 2]','[Naam]','[Datum]'],['[Actie 3]','[Naam]','[Datum]']]);
       tbl.styleBuiltIn = Word.Style.tableGrid;
     }
- 
+
     async function buildChecklistTemplate(ctx, body) {
       const s = getSettings();
       const datum = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
@@ -959,23 +952,23 @@
         body.insertParagraph('','End');
       });
     }
- 
+
     function insertVersiebeheertabel(ctx, sel) {
       const datum = new Date().toLocaleDateString('nl-NL');
       const tbl = sel.insertTable(3,4,'After',[['Versie','Datum','Auteur','Wijziging'],['1.0',datum,'[Naam]','Initiële versie'],['','','','']]);
       tbl.styleBuiltIn = Word.Style.tableGrid;
     }
- 
+
     function insertHuisstijlTabel(ctx, sel, cols) {
       const h = cols===2?['Kolom 1','Kolom 2']:['Kolom 1','Kolom 2','Kolom 3'];
       const rows = [h,...Array(3).fill(Array(cols).fill(''))];
       sel.insertTable(4,cols,'After',rows).styleBuiltIn = Word.Style.tableGrid;
     }
- 
+
     function insertKader(ctx, sel) {
       sel.insertText('[Tekst in accentkader]','Replace');
     }
- 
+
     let selectedImage = null;
     function selectImage(id, el) {
       selectedImage = id;
@@ -983,17 +976,17 @@
       el.classList.add('selected');
       document.getElementById('btn-voeg-beeld-in').disabled = false;
     }
- 
+
     function insertSelectedImage() {
       if (!selectedImage) return;
       showToast('Koppel "'+selectedImage+'" aan echte URL in productie');
     }
- 
+
     // ── Vestigingen ─────────────────────────────────────────────────
     // Vestigingen worden geladen vanuit GitHub (centraal) en gecached lokaal
- 
+
     let _vestigingenCache = null;
- 
+
     async function fetchVestigingen() {
       try {
         const resp = await fetch(DATA_BASE + 'vestigingen.json?t=' + Date.now());
@@ -1007,28 +1000,28 @@
       // Fallback: lokale cache
       return getVestigingenLokaal();
     }
- 
+
     function getVestigingenLokaal() {
       try {
         return JSON.parse(localStorage.getItem('pwm_vestigingen') || '[]');
       } catch(e) { return []; }
     }
- 
+
     function getVestigingen() {
       return _vestigingenCache || getVestigingenLokaal();
     }
- 
+
     function saveVestigingen(list) {
       _vestigingenCache = list;
       localStorage.setItem('pwm_vestigingen', JSON.stringify(list));
     }
- 
+
     function getActieveVestiging() {
       const id = localStorage.getItem('pwm_actieve_vestiging');
       const list = getVestigingen();
       return list.find(v => v.id === id) || list[0] || null;
     }
- 
+
     function renderVestigingSelect() {
       const sel = document.getElementById('setting-vestiging');
       const list = getVestigingen();
@@ -1036,7 +1029,7 @@
       sel.innerHTML = list.length === 0
         ? '<option value="">— Nog geen vestigingen —</option>'
         : list.map(v => '<option value="'+v.id+'"'+(v.id===actief?' selected':'')+'>'+v.naam+'</option>').join('');
- 
+
       // Update banner
       const v = getActieveVestiging();
       const banner = document.getElementById('vestiging-banner');
@@ -1048,7 +1041,7 @@
         banner.style.display = 'none';
       }
     }
- 
+
     function renderVestigingList() {
       const list = getVestigingen();
       const el = document.getElementById('vestiging-list');
@@ -1067,14 +1060,14 @@
           + '</div>';
       }).join('');
     }
- 
- 
+
+
     function onVestigingChange() {
       const val = document.getElementById('setting-vestiging').value;
       localStorage.setItem('pwm_actieve_vestiging', val);
       renderVestigingList();
     }
- 
+
     function showVestigingForm(v) {
       document.getElementById('vestiging-form').style.display = 'block';
       document.getElementById('vestiging-form-title').textContent = v ? 'Vestiging bewerken' : 'Vestiging toevoegen';
@@ -1089,11 +1082,11 @@
       document.getElementById('vf-btw').value     = v ? v.btw     : '';
       document.getElementById('vf-iban').value    = v ? v.iban    : '';
     }
- 
+
     function hideVestigingForm() {
       document.getElementById('vestiging-form').style.display = 'none';
     }
- 
+
     function saveVestiging() {
       const naam = document.getElementById('vf-naam').value.trim();
       if (!naam) { showToast('Vul een naam in', true); return; }
@@ -1122,12 +1115,12 @@
       renderVestigingList();
       showToast('✓ Vestiging opgeslagen');
     }
- 
+
     function editVestiging(id) {
       const v = getVestigingen().find(x => x.id === id);
       if (v) showVestigingForm(v);
     }
- 
+
     function deleteVestiging(id) {
       const list = getVestigingen().filter(x => x.id !== id);
       saveVestigingen(list);
@@ -1138,9 +1131,9 @@
       renderVestigingList();
       showToast('Vestiging verwijderd');
     }
- 
+
     // ── Algemene instellingen ────────────────────────────────────────
- 
+
     function getSettings() {
       return {
         auteur:   localStorage.getItem('pwm_auteur')   || '',
@@ -1148,7 +1141,7 @@
         kleur:    localStorage.getItem('pwm_kleur')    || '#f18700',
       };
     }
- 
+
     async function loadSettings() {
       const s = getSettings();
       document.getElementById('setting-auteur').value   = s.auteur;
@@ -1162,25 +1155,25 @@
       renderVestigingSelect();
       renderVestigingList();
     }
- 
+
     function saveSettings() {
       localStorage.setItem('pwm_auteur',  document.getElementById('setting-auteur').value);
       localStorage.setItem('pwm_functie', document.getElementById('setting-functie').value);
       localStorage.setItem('pwm_kleur',   document.getElementById('setting-kleur').value);
       showToast('✓ Instellingen opgeslagen');
     }
- 
+
     function resetSettings() {
       ['pwm_auteur','pwm_functie','pwm_kleur','pwm_vestigingen','pwm_actieve_vestiging'].forEach(k => localStorage.removeItem(k));
       loadSettings();
       showToast('Instellingen gereset');
     }
- 
+
     function updateColorPreview(val) {
       const el = document.getElementById('color-preview');
       if (el && /^#[0-9A-Fa-f]{6}$/.test(val)) el.style.background = val;
     }
- 
+
     let toastTimer;
     function showToast(msg, isError=false) {
       const t = document.getElementById('toast');
