@@ -684,32 +684,18 @@
 
     // ── Template openen + header instellen ──────────────────────────
 
-    async function openTemplate(bestandsnaam) {
+    function openTemplate(bestandsnaam) {
       const url = TEMPLATE_BASE + bestandsnaam;
-      showToast('↓ Bezig met laden...');
-
-      try {
-        // Fetch het bestand en open als blob URL
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Bestand niet gevonden');
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = bestandsnaam;
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-          document.body.removeChild(a);
-          URL.revokeObjectURL(blobUrl);
-        }, 1000);
-        showToast('✓ ' + bestandsnaam + ' geopend');
-      } catch(e) {
-        showToast('Fout: ' + e.message, true);
-      }
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = bestandsnaam;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => document.body.removeChild(a), 100);
+      showToast('↓ ' + bestandsnaam + ' wordt geopend...');
     }
+
 
     async function applyVestigingHeader() {
       const v = getActieveVestiging();
