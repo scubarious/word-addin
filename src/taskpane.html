@@ -686,18 +686,28 @@
 
     async function openTemplate(bestandsnaam) {
       const url = TEMPLATE_BASE + bestandsnaam;
-
-      // Toon downloadpaneel met klikbare link
-      const statusEl = document.getElementById('header-status');
+      showToast('↓ Bezig met laden...');
 
       try {
-        Office.context.ui.openBrowserWindow(url);
-        showToast('↓ Openen in browser...');
-        if (statusEl) statusEl.innerHTML = '↓ Als het niet opent: <a href="' + url + '" target="_blank" style="color:var(--orange);">klik hier</a>';
+        // Fetch het bestand en open als blob URL
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Bestand niet gevonden');
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = bestandsnaam;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        }, 1000);
+        showToast('✓ ' + bestandsnaam + ' geopend');
       } catch(e) {
-        // Toon klikbare link als fallback
-        if (statusEl) statusEl.innerHTML = '<a href="' + url + '" target="_blank" style="color:var(--orange); font-weight:700;">&#8659; Klik hier om ' + bestandsnaam + ' te downloaden</a>';
-        showToast('Klik op de link hieronder', false);
+        showToast('Fout: ' + e.message, true);
       }
     }
 
