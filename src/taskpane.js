@@ -21,17 +21,26 @@ function switchTab(naam) {
 
 // ── Template openen ──────────────────────────────────────────────
 function openTemplate(bestandsnaam) {
-  var dialogUrl = 'https://scubarious.github.io/word-addin/src/dialog.html?file=' + encodeURIComponent(bestandsnaam);
-  console.log('Dialog URL:', dialogUrl);
-  Office.context.ui.displayDialogAsync(dialogUrl, { height: 40, width: 30 }, function(result) {
-    if (result.status === Office.AsyncResultStatus.Succeeded) {
-      showToast('Sjabloon wordt geopend...');
-      console.log('Dialoog geopend');
-    } else {
-      showToast('Fout: ' + result.error.message, true);
-      console.log('Dialoog fout:', result.error.message);
-    }
-  });
+  var url = TEMPLATE_BASE + bestandsnaam;
+
+  // Toon downloadpaneel in het zijpaneel
+  var panel = document.getElementById('download-panel');
+  var link = document.getElementById('download-link');
+  var naam = document.getElementById('download-naam');
+
+  if (panel && link && naam) {
+    naam.textContent = bestandsnaam;
+    link.href = url;
+    link.download = bestandsnaam;
+    panel.style.display = 'block';
+    // Scroll naar beneden zodat de knop zichtbaar is
+    panel.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function sluitDownloadPanel() {
+  var panel = document.getElementById('download-panel');
+  if (panel) panel.style.display = 'none';
 }
 
 // ── Bouwblokken invoegen ─────────────────────────────────────────

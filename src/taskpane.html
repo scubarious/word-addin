@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval';">
   <title>Documentsjablonen</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://scubarious.github.io/word-addin/styles.css">
   <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
 </head>
 <body>
@@ -247,9 +247,19 @@
   <span class="badge">v1.0.0</span>
 </div>
 
+<!-- Download paneel -->
+<div id="download-panel" style="display:none; position:fixed; bottom:0; left:0; right:0; background:white; border-top:3px solid #f18700; padding:14px; box-shadow:0 -4px 12px rgba(0,0,0,0.1); z-index:200;">
+  <div style="font-size:11px; color:#777; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.06em; font-weight:700;">Sjabloon openen</div>
+  <div style="font-size:12px; font-weight:700; color:#2a2a2a; margin-bottom:10px;" id="download-naam"></div>
+  <div style="display:flex; gap:8px;">
+    <a id="download-link" href="#" style="flex:1; display:block; background:#f18700; color:white; text-align:center; padding:9px; border-radius:6px; font-size:12px; font-weight:700; text-decoration:none;">&#8659; Downloaden en openen</a>
+    <button onclick="sluitDownloadPanel()" style="padding:9px 12px; background:#dddddd; border:none; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit;">✕</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
-<script src="taskpane.js"></script>
+<script src="https://scubarious.github.io/word-addin/taskpane.js"></script>
 
 </body>
 </html>
