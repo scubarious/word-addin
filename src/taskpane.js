@@ -22,11 +22,14 @@ function switchTab(naam) {
 // ── Template openen ──────────────────────────────────────────────
 function openTemplate(bestandsnaam) {
   var dialogUrl = 'https://scubarious.github.io/word-addin/src/dialog.html?file=' + encodeURIComponent(bestandsnaam);
+  console.log('Dialog URL:', dialogUrl);
   Office.context.ui.displayDialogAsync(dialogUrl, { height: 40, width: 30 }, function(result) {
     if (result.status === Office.AsyncResultStatus.Succeeded) {
       showToast('Sjabloon wordt geopend...');
+      console.log('Dialoog geopend');
     } else {
       showToast('Fout: ' + result.error.message, true);
+      console.log('Dialoog fout:', result.error.message);
     }
   });
 }
