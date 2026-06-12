@@ -23,17 +23,29 @@ function switchTab(naam) {
 function openTemplate(bestandsnaam) {
   var url = TEMPLATE_BASE + bestandsnaam;
 
-  // Toon downloadpaneel in het zijpaneel
+  // Probeer eerst displayDialogAsync (werkt in Word desktop)
+  if (Office.context && Office.context.ui && Office.context.ui.displayDialogAsync) {
+    var dialogUrl = 'https://scubarious.github.io/word-addin/src/dialog.html?file=' + encodeURIComponent(bestandsnaam);
+    Office.context.ui.displayDialogAsync(dialogUrl, { height: 40, width: 30 }, function(result) {
+      if (result.status === Office.AsyncResultStatus.Failed) {
+        // Fallback: toon download paneel
+        toonDownloadPanel(bestandsnaam, url);
+      }
+    });
+  } else {
+    // Fallback voor browser preview
+    toonDownloadPanel(bestandsnaam, url);
+  }
+}
+
+function toonDownloadPanel(bestandsnaam, url) {
   var panel = document.getElementById('download-panel');
   var link = document.getElementById('download-link');
   var naam = document.getElementById('download-naam');
-
   if (panel && link && naam) {
     naam.textContent = bestandsnaam;
-    link.href = url;
-    link.download = bestandsnaam;
+    link.setAttribute('data-url', url);
     panel.style.display = 'block';
-    // Scroll naar beneden zodat de knop zichtbaar is
     panel.scrollIntoView({ behavior: 'smooth' });
   }
 }
