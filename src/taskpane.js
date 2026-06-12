@@ -21,16 +21,14 @@ function switchTab(naam) {
 
 // ── Template openen ──────────────────────────────────────────────
 function openTemplate(bestandsnaam) {
-  var url = TEMPLATE_BASE + bestandsnaam;
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = bestandsnaam;
-  a.target = '_blank';
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  showToast('Sjabloon wordt geopend...');
+  var dialogUrl = 'https://scubarious.github.io/word-addin/src/dialog.html?file=' + encodeURIComponent(bestandsnaam);
+  Office.context.ui.displayDialogAsync(dialogUrl, { height: 40, width: 30 }, function(result) {
+    if (result.status === Office.AsyncResultStatus.Succeeded) {
+      showToast('Sjabloon wordt geopend...');
+    } else {
+      showToast('Fout: ' + result.error.message, true);
+    }
+  });
 }
 
 // ── Bouwblokken invoegen ─────────────────────────────────────────

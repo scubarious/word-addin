@@ -1,0 +1,71 @@
+<!-- v1.0.0 -->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sjabloon downloaden</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f5f5f5;
+    }
+    .box {
+      background: white;
+      border-radius: 8px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      max-width: 320px;
+    }
+    .icon { font-size: 48px; margin-bottom: 16px; }
+    h2 { font-size: 16px; color: #2a2a2a; margin-bottom: 8px; }
+    p { font-size: 13px; color: #777; margin-bottom: 24px; }
+    a.btn {
+      display: inline-block;
+      background: #f18700;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    a.btn:hover { background: #c97200; }
+  </style>
+</head>
+<body>
+<div class="box">
+  <div class="icon">📄</div>
+  <h2 id="titel">Sjabloon downloaden</h2>
+  <p>Klik op de knop om het sjabloon te downloaden. Word opent het automatisch.</p>
+  <a class="btn" id="download-btn" href="#" download>Downloaden</a>
+</div>
+<script>
+  Office.onReady(function() {
+    // Haal bestandsnaam op uit URL parameter
+    var params = new URLSearchParams(window.location.search);
+    var bestand = params.get('file');
+    var base = 'https://scubarious.github.io/word-addin/templates/';
+
+    if (bestand) {
+      document.getElementById('titel').textContent = bestand;
+      var btn = document.getElementById('download-btn');
+      btn.href = base + bestand;
+      btn.download = bestand;
+
+      // Automatisch downloaden na 500ms
+      setTimeout(function() {
+        btn.click();
+      }, 500);
+    }
+  });
+</script>
+</body>
+</html>
