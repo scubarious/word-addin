@@ -7,7 +7,7 @@
   xsi:type="TaskPaneApp">
 
   <Id>a1b2c3d4-e5f6-7890-abcd-ef1234567890</Id>
-  <Version>1.0.3</Version>
+  <Version>1.1.0</Version>
   <ProviderName>PWMedia</ProviderName>
   <DefaultLocale>nl-NL</DefaultLocale>
   <DisplayName DefaultValue="Documentsjablonen" />
@@ -71,7 +71,6 @@
         </DesktopFormFactor>
       </Host>
     </Hosts>
-
     <Resources>
       <bt:Images>
         <bt:Image id="Icon.16x16" DefaultValue="https://scubarious.github.io/word-addin/assets/icons/icon-16.png" />
@@ -89,7 +88,7 @@
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="GetStarted.Description" DefaultValue="Open het sjablonenpaneel via het lint." />
-        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Open het sjablonenpaneel om een template in te voegen." />
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Open het sjablonenpaneel om een sjabloon in te voegen." />
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
